@@ -25,11 +25,11 @@ const generateAccessTokenAndRefreshToken = async (userId) => {
 
 //registerUser function-backend
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password, phone, profession, comment } = req.body;
+    const { name, email, password, phone, profession } = req.body;
 
     //validation - check
     if (
-        [name, email, password, phone, profession, comment].some((field) => field?.trim() === "")
+        [name, email, password, phone, profession ].some((field) => field?.trim() === "")
     ) {
         throw new ApiError(400, "All fields are required")
     }
@@ -49,8 +49,7 @@ const registerUser = asyncHandler(async (req, res) => {
         email,
         password,
         phone,
-        profession,
-        comment
+        profession
     })
 
     //remove password and refreshToken from the create user
@@ -126,67 +125,66 @@ const loginUser = asyncHandler(async (req, res) => {
 
 
 //get all user
-const getAllUsers = asyncHandler(async (req, res) => {
-    const users = await User.find()
-        .select("-password -refreshToken");
+// const getAllUsers = asyncHandler(async (req, res) => {
+//     const users = await User.find()
+//         .select("-password -refreshToken");
 
-    return res.status(200)
-        .json(new ApiResponse(200,
-            users,
-            "Users fetched successfully"));
-});
+//     return res.status(200)
+//         .json(new ApiResponse(200,
+//             users,
+//             "Users fetched successfully"));
+// });
 
 
 // Update user function
-const updateUser = asyncHandler(async (req, res) => {
-    const { userId } = req.params;
-    const { name, phone } = req.body;
+// const updateUser = asyncHandler(async (req, res) => {
+//     const { userId } = req.params;
+//     const { name, phone } = req.body;
 
-    const updatedUser = await User.findByIdAndUpdate(userId,
-        {
-            name,
-            phone
-        },
-        {
-            new: true,
-            runValidators: true
-        }).select("-password -refreshToken");
+//     const updatedUser = await User.findByIdAndUpdate(userId,
+//         {
+//             name,
+//             phone
+//         },
+//         {
+//             new: true,
+//             runValidators: true
+//         }).select("-password -refreshToken");
 
-    if (!updatedUser) {
-        throw new ApiError(404, "User not found");
-    }
+//     if (!updatedUser) {
+//         throw new ApiError(404, "User not found");
+//     }
 
-    return res.status(200)
-        .json(new ApiResponse(200,
-            updatedUser,
-            "User updated successfully"));
-});
+//     return res.status(200)
+//         .json(new ApiResponse(200,
+//             updatedUser,
+//             "User updated successfully"));
+// });
 
 
 
-// Delete user
-const deleteUser = asyncHandler(async (req, res) => {
-    const { userId } = req.params;
+// // Delete user
+// const deleteUser = asyncHandler(async (req, res) => {
+//     const { userId } = req.params;
 
-    if (!userId) {
-        throw new ApiError(400, "User ID is required for deletion");
-    }
+//     if (!userId) {
+//         throw new ApiError(400, "User ID is required for deletion");
+//     }
 
-    const deletedUser = await User.findByIdAndDelete(userId);
+//     const deletedUser = await User.findByIdAndDelete(userId);
 
-    if (!deletedUser) {
-        throw new ApiError(404, "User not found");
-    }
+//     if (!deletedUser) {
+//         throw new ApiError(404, "User not found");
+//     }
 
-    return res.status(200).json(
-        new ApiResponse(200, null, "User deleted successfully")
-    );
-});
+//     return res.status(200).json(
+//         new ApiResponse(200, null, "User deleted successfully")
+//     );
+// });
 
 
 
 
 export {
-    deleteUser, generateAccessTokenAndRefreshToken, getAllUsers, loginUser,
-    registerUser, updateUser
+    generateAccessTokenAndRefreshToken, loginUser, registerUser
 };
