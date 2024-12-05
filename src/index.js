@@ -20,5 +20,5 @@ connectDB()
         })
 
     }).catch((err) => {
-        logger.error("Database connection is faild !! ", err);
+        logger.error("Database connection is failed !! ", err);
     })

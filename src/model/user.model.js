@@ -36,13 +36,13 @@ userSchema.pre("save", async function (next) {
     if (!this.isModified("password"))
         return next()
 
-    //this method is user for encrypt (into a hash code unreadble message type) the password
+    //this method is user for encrypt (into a hash code un-readable message type) the password
     this.password = await bcrypt.hash(this.password, 10)
     next()
 })
 
 
-//this method is user for decrypt (into a hash code readble password type) the password
+//this method is user for decrypt (into a hash code readable password type) the password
 userSchema.methods.isPasswordCorrect = async function (password) {
 
     if (!password || !this.password) {
@@ -67,7 +67,7 @@ userSchema.methods.generateAccessToken = function () {
 }
 
 
-//and this code is ganaretaed a refresh token
+//and this code is generated a refresh token
 userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
         {

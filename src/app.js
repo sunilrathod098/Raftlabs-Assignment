@@ -16,12 +16,12 @@ const app = express();
 
 //Middleware
 app.use(cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: process.env.CORS_ORIGIN || ["http://localhost:3000", "http://localhost:5000"],
     credentials: true
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public'))); // Use path.join to join directories
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
 
@@ -36,13 +36,17 @@ app.use(
 
 
 
+// // Default route for root URL
+// app.get('/', (req, res) => {
+//     res.send('Welcome to the API!');
+// });
 
 
 //import routes
-// import userRouter from "./routes/user.route.js";
+import userRouter from "./route/user.route.js";
 
 //routes declaration
-// app.use('/api/v1/users', userRouter)
+app.use('/api/v1/users', userRouter)
 
 
 export { app };

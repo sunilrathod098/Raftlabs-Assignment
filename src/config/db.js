@@ -1,18 +1,19 @@
 import mongoose from "mongoose";
+import logger from "../utils/logger.js"
 import { DB_NAME } from "../constants.js";
 
 //here we use async function and await prommiese
 const connectDB = async () => {
     try {
         const connectionInstance = await mongoose
-            .connect(`${process.env.MONGODB_URI}/${DB_NAME}`) // connect database url with db_name 
-        console.log(`\n Database connect successfully!!`) //showing here host name also
+            .connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
+        logger.info(`Database connect successfully!!`)
 
     } catch (error) {
-        console.error("Database connection is faild:", error);
+        logger.error("Database connection is failed:", error);
         process.exit(1)
     }
 }
 
-//the databse connection is default connection.
+//the database connection is default connection.
 export default connectDB
