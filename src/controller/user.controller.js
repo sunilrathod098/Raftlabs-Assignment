@@ -1,4 +1,4 @@
-import { check, validationResult } from "express-validator"
+import { body, check, validationResult } from "express-validator"
 import { User } from "../model/user.model.js"
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
@@ -6,6 +6,7 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 import logger from "../utils/logger.js"
 
 
+//generate token here
 const generateAccessTokenAndRefreshToken = async(userId) => {
     try {
         const user = await User.findById(userId);
@@ -29,7 +30,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     //check and validation
-    
+
     check("name").notEmpty().withMessage("Name is required").run(req);
     check("email").isEmail().withMessage("Email is required").run(req);
     check("password").isLength({ min: 8 }).withMessage("Password must be at least 8 character long").run(req);
@@ -78,11 +79,158 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 
+//loginUser controller
+const loginUser = asyncHandler(async (req, res) => {
+
+    if (!req.body || Object.keys(req.body).length === 0) {
+        throw new ApiError(400, "Request body is missing or empty")
+    }
+    //check and validation
+    check("email").isEmail().withMessage("Email is required").run(req);
+    check("password").isLength({ min: 8 }).withMessage("Password must be at least 8 character long").run(req);
+
+    const { email, password } = req.body;
+    if (!email || !password) {
+        throw new ApiError(400,"Email and password are required to login.")
+    }
+
+    const user = await User.findOne({email}).select("+password")
+    if (!user) {
+        throw new ApiError(404, "User not found")
+    }
+
+    const isPasswordValid = await user.isPasswordCorrect(password)
+    if (!isPasswordValid) {
+        throw new ApiError(401, "Invalid user credentials")
+    }
+    
+    const { accessToken, refreshToken } = await generateAccessTokenAndRefreshToken(user._id)
+
+    const loggedInUser = await User.findById(user.id).select("-refreshToken")
+        if (!loggedInUser) {
+            throw new ApiError(500, "Something went wrong while login user.")
+        }
+
+        return res.status(201)
+            .cookie("accessToken", accessToken)
+            .cookie("refreshToken", refreshToken)
+            .json(
+                new ApiResponse(
+                    200,
+                    "User logged successfully"
+                )
+            )
+});
 
 
+// CRUD operations is perform on user Create, Read, Update, Delete.
+//get all users
+const getAllUsers = asyncHandler(async (req, res) => {
+    const users = await User.find().select("-password -refreshToken");
+    if (!users) {
+        throw new ApiError(404, "Users are not found")
+    }
 
+    return res.status(200)
+    .json(
+        new ApiResponse(
+            200,
+            users,
+            "All users fetched successfully")
+        )
+});
+
+
+//getUserById
+const getUserById = asyncHandler(async (req, res) => {
+    check("_id").isMongoId().withMessage("Invalid user Id").run(req);
+    
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        throw new ApiError(400, "Validation Failed", errors.array())
+    }
+
+    const user = await User.findById(req.params._id).select("-password")
+    if (!user) {
+        throw new ApiError(400, "User not found")
+    }
+
+    return res.status(200)
+    .json(
+        new ApiResponse(
+            200,
+            user,
+            "User fetched successfully")
+        );
+});
+
+
+//update user
+
+const updateUser = asyncHandler(async (req, res) => {
+    check("_id").isMongoId().withMessage("Invalid user Id").run(req),
+    check("name").optional().notEmpty().withMessage("Name cannot be empty").run(req),
+    check("phone").optional().isMobilePhone().withMessage("Invalid phone number").run(req),
+    check("profession").optional().notEmpty().withMessage("Profession cannot be empty").run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        throw new ApiError(400, "validation failed", errors.array())
+    }
+
+    const { name, phone, profession } = req.body;
+    const user = await User.findByIdAndUpdate(
+        req.params._id,
+        {
+            name,
+            phone,
+            profession
+        },
+        {
+            new: true,
+            runValidators: true
+        });
+        if (!user) {
+            throw new ApiError(404, "User not found")
+        }
+
+        return res.status(200)
+        .json(
+            new ApiResponse(
+                200,
+                user,
+                "User updated successfully"));
+});
+
+
+//Delete User
+const deleteUser = asyncHandler(async (req, res) => {
+    check("_id").isMongoId().withMessage("Invalid user Id").run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        throw new ApiError(400, "Validation failed", errors.array());
+    }
+
+    const user = await User.findByIdAndDelete(req.params._id);
+    if (!user) {
+        throw new ApiError(404, "User not found")
+    }
+
+    return res.status(200)
+    .json(
+        new ApiResponse(
+            200,
+            null,
+            "User deleted successfully" ));
+});
 
 export {
     generateAccessTokenAndRefreshToken,
-    registerUser
+    registerUser,
+    loginUser,
+    getAllUsers,
+    getUserById,
+    updateUser,
+    deleteUser
 }

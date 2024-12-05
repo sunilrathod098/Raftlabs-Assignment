@@ -1,11 +1,15 @@
 import winston from "winston";
+import moment from "moment";
 
 //here we create winston logger is use for
 //debugging, error tracking and monitoring.
 const logger = winston.createLogger({
     level: "info",
     format: winston.format.combine(
-        winston.format.timestamp(),
+        //use IST Indian Standard Time
+        winston.format.timestamp({
+            format: () => moment().format("YYYY-MM-DD HH:mm:ss A")
+        }),
         winston.format.printf(
             ({
                 timestamp, level, message
