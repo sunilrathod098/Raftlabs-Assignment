@@ -9,7 +9,6 @@ const generateAccessTokenAndRefreshToken = async(userId) => {
         const user = await User.findById(userId);
         const accessToken = await user.generateAccessToken();
         const refreshToken = await user.generateRefreshToken();
-    
         user.refreshToken = refreshToken
         user.save({ validateBeforeSave : false})
         return { accessToken, refreshToken }
@@ -17,3 +16,15 @@ const generateAccessTokenAndRefreshToken = async(userId) => {
         throw new ApiError(500, "Something went wrong while generating access and refresh tokens.")
     }
 }
+
+
+
+//registerUser
+const registerUser = asyncHandler( async (res, req) => {
+    const { name, email, password, phone, profession } = req.body;
+
+    //check validation 
+    if ([ name, email, password, phone, profession].some((field) => field?.trim() === "")) {
+        throw new ApiError(400, "All fields are required")
+    }
+})

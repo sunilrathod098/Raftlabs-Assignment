@@ -5,26 +5,26 @@ import mongoose, { Schema } from "mongoose";
 const userSchema = new Schema({
     name: {
         type: String,
-        required: [true, 'Please add a name'],
+        required: true
     },
     email: {
         type: String,
-        required: [true, 'Please add an email'],
+        required: true,
         unique: true,
     },
     password: {
         type: String,
-        required: [true, 'Please add a password'],
+        required: true,
         minlength: 8,
         select: false,
     },
     phone: {
         type: String,
-        required: [true, 'Please add a phone number'],
+        required: true,
     },
     profession: {
         type: String,
-        required: [true, 'Please add a profession'],
+        required: true
     }
 }, {
     timestamps: true,
