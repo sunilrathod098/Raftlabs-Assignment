@@ -126,18 +126,38 @@ const loginUser = asyncHandler(async (req, res) => {
 // CRUD operations is perform on user Create, Read, Update, Delete.
 //get all users
 const getAllUsers = asyncHandler(async (req, res) => {
-    const users = await User.find().select("-password -refreshToken");
-    if (!users) {
+    const {
+        page = 1,
+        limit = 10,
+        sort = 'asc'
+    } = req.query;
+
+    const skip = ( page - 1 ) * limit;
+
+    const users = await User.find()
+    .select("-password -refreshToken")
+    .sort({ createdAt: sort === 'asc' ? 1 : -1})
+    .skip(skip)
+    .limit(parseInt(limit));
+
+    if (!users || users.length === 0) {
         throw new ApiError(404, "Users are not found")
     }
+
+    //here count total user form metadata i.e in docs
+    const totalUsers = await User.countDocuments();
 
     return res.status(200)
     .json(
         new ApiResponse(
             200,
-            users,
-            "All users fetched successfully")
-        )
+            {
+                totalUsers,
+                totalPages : Math.ceil(totalUsers / limit),
+                currentPage: parseInt(page),
+                users
+            },
+            "All users fetched successfully" ));
 });
 
 
