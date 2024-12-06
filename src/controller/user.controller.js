@@ -166,7 +166,6 @@ const getUserById = asyncHandler(async (req, res) => {
 
 
 //update user
-
 const updateUser = asyncHandler(async (req, res) => {
     check("_id").isMongoId().withMessage("Invalid user Id").run(req),
     check("name").optional().notEmpty().withMessage("Name cannot be empty").run(req),
@@ -190,6 +189,7 @@ const updateUser = asyncHandler(async (req, res) => {
             new: true,
             runValidators: true
         });
+
         if (!user) {
             throw new ApiError(404, "User not found")
         }
@@ -224,6 +224,7 @@ const deleteUser = asyncHandler(async (req, res) => {
             null,
             "User deleted successfully" ));
 });
+
 
 export {
     generateAccessTokenAndRefreshToken,
