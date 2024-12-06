@@ -126,6 +126,8 @@ const loginUser = asyncHandler(async (req, res) => {
 // CRUD operations is perform on user Create, Read, Update, Delete.
 //get all users
 const getAllUsers = asyncHandler(async (req, res) => {
+
+    //Pagination and Sorting user data
     const {
         page = 1,
         limit = 10,
@@ -159,6 +161,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
             },
             "All users fetched successfully" ));
 });
+
 
 
 //getUserById
@@ -245,6 +248,41 @@ const deleteUser = asyncHandler(async (req, res) => {
             "User deleted successfully" ));
 });
 
+//Search and filter from user data
+const SearchUser = asyncHandler(async (req, res) => {
+    const { search } = req.query;
+    if (!search || search.trim() === "") {
+        throw new ApiError(400, "Search query is required")
+    }
+
+    const users = await User.find({
+        $or: [
+            {
+                name:{
+                    $regex: search,
+                    $options: 'i'
+                }
+            },
+            {
+                email:{
+                    $regex: search,
+                    $options: 'i'
+                }
+            }
+    ]});
+    
+    if (!users.length) {
+        throw new ApiError(404, "No matching users found")
+    }
+
+    return res.status(200)
+    .json(
+        new ApiResponse(
+            200,
+            users,
+            "Matching users fetched successfully" ));
+});
+
 
 export {
     generateAccessTokenAndRefreshToken,
@@ -253,5 +291,6 @@ export {
     getAllUsers,
     getUserById,
     updateUser,
-    deleteUser
+    deleteUser,
+    SearchUser
 }
