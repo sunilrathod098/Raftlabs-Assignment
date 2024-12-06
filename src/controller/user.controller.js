@@ -1,4 +1,4 @@
-import { body, check, validationResult } from "express-validator"
+import { check, validationResult } from "express-validator"
 import { User } from "../model/user.model.js"
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
@@ -79,6 +79,7 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 
+
 //loginUser controller
 const loginUser = asyncHandler(async (req, res) => {
 
@@ -123,6 +124,7 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 
+
 // CRUD operations is perform on user Create, Read, Update, Delete.
 //get all users
 const getAllUsers = asyncHandler(async (req, res) => {
@@ -164,6 +166,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
 
 
 
+
 //getUserById
 const getUserById = asyncHandler(async (req, res) => {
     check("_id").isMongoId().withMessage("Invalid user Id").run(req);
@@ -186,6 +189,7 @@ const getUserById = asyncHandler(async (req, res) => {
             "User fetched successfully")
         );
 });
+
 
 
 //update user
@@ -226,6 +230,8 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 
 
+
+
 //Delete User
 const deleteUser = asyncHandler(async (req, res) => {
     check("_id").isMongoId().withMessage("Invalid user Id").run(req);
@@ -247,6 +253,8 @@ const deleteUser = asyncHandler(async (req, res) => {
             null,
             "User deleted successfully" ));
 });
+
+
 
 //Search and filter from user data
 const SearchUser = asyncHandler(async (req, res) => {
@@ -285,12 +293,7 @@ const SearchUser = asyncHandler(async (req, res) => {
 
 
 export {
-    generateAccessTokenAndRefreshToken,
-    registerUser,
-    loginUser,
-    getAllUsers,
-    getUserById,
-    updateUser,
-    deleteUser,
-    SearchUser
+    deleteUser, generateAccessTokenAndRefreshToken, getAllUsers,
+    getUserById, loginUser, registerUser, SearchUser, updateUser
 }
+

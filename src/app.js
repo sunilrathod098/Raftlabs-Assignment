@@ -5,6 +5,10 @@ import path from "path";
 import { fileURLToPath } from "url";
 import morgan from "morgan"
 import logger from "./utils/logger.js";
+import { typeDefs, resolvers } from "./graphql/schema.js";
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+
 
 
 
@@ -34,12 +38,17 @@ app.use(
     })
 );
 
+// Create ApolloServer instance
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+});
 
+// Start Apollo Server
+await server.start();
 
-// // Default route for root URL
-// app.get('/', (req, res) => {
-//     res.send('Welcome to the API!');
-// });
+// Apply Apollo Server middleware to Express app
+app.use('/graphql', expressMiddleware(server));
 
 
 //import routes

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import logger from "../utils/logger.js"
 import { DB_NAME } from "../constants.js";
+import logger from "../utils/logger.js";
 
 //here we use async function and await prommiese
 const connectDB = async () => {
