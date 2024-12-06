@@ -2512,3 +2512,5 @@
 [2024-12-06 11:19:30 AM INFO: ::1 - - [06/Dec/2024:05:49:30 +0000] "DELETE /api/v1/users/delete/675190e177c0542881b57310 HTTP/1.1" 200 83 "-" "PostmanRuntime/7.43.0"]
 [2024-12-06 11:21:05 AM INFO: Database connect successfully!!]
 [2024-12-06 11:21:05 AM INFO: Server running on http://localhost:5000]
+[2024-12-06 11:21:15 AM INFO: Database connect successfully!!]
+[2024-12-06 11:21:15 AM INFO: Server running on http://localhost:5000]
