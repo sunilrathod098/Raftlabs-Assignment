@@ -9,36 +9,36 @@
 ## Project Structure
 - Here’s the structure of the project:
 
-Raftlabs-assignment/
-│
-├── src/
-│   ├── config/
-│   │   └── db.config.js              
-│   ├── controller/
-│   │   └── user.controller.js            
-│   ├── graphql/
-│   │   └── schema.js         
-│   ├── middleware/
-│   │   └── authMiddleware.js  
-│   ├── models/
-│   │   └── user.model.js      
-│   ├── utils/
-│   │   ├── ApiError.js                      
-│   │   ├── ApiResponse.js     
-│   │   ├── asyncHandler.js    
-│   │   └── logger.js          
-│   ├── app.js                 
-│   ├── constants.js           
-│   ├── index.js               
-│
-├── public/                    
-├── logs/
-      ├── combined.log                      
-      ├── error.log                      
-├── .env                       
-├── package.json  
-├── DOC.md            
-└── README.md                  
+- Raftlabs-assignment/
+- │
+- ├── src/
+- │   ├── config/
+- │   │   └── db.config.js              
+- │   ├── controller/
+- │   │   └── user.controller.js            
+- │   ├── graphql/
+- │   │   └── schema.js         
+- │   ├── middleware/
+- │   │   └── authMiddleware.js  
+- │   ├── models/
+- │   │   └── user.model.js      
+- │   ├── utils/
+- │   │   ├── ApiError.js                      
+- │   │   ├── ApiResponse.js     
+- │   │   ├── asyncHandler.js    
+- │   │   └── logger.js          
+- │   ├── app.js                 
+- │   ├── constants.js           
+- │   ├── index.js               
+- │
+- ├── public/                    
+- ├── logs/
+- │   ├── combined.log                      
+- │   ├── error.log                      
+- ├── .env                       
+- ├── package.json  
+- ├── DOC.md            
+- └── README.md                  
 
 ### Key Folders and Files
 - `controller/`: Contains the business logic for user-related operations.
