@@ -93,7 +93,7 @@
 
 ### Apollo Server for GraphQL
 - To use GraphQL, you can query the API using Apollo Server with queries and mutations like:
-*mutation {
+- *mutation {
     registerUser{
       _id
       name
@@ -102,7 +102,7 @@
       profession
       }*
   
- *mutation {
+ - *mutation {
   users {
     name
     email
@@ -111,22 +111,22 @@
 
 - This a user query:-
   
-*query Query($id: ID!, $search: String!) {
-  getAllUsers {
+- *query Query($id: ID!, $search: String!) {
+  - getAllUsers {
     _id
     name
     email
     phone
     profession
   }
-  getUserById(_id: $id) {
+ - getUserById(_id: $id) {
     _id
     name
     email
     phone
     profession
   }
-  searchUsers(search: $search) {
+  - searchUsers(search: $search) {
     _id
     name
     email
