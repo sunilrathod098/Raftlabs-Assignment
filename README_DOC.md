@@ -2,9 +2,9 @@
 
 ## Project Overview
 
-- This project is an implementation of a RESTful API using Node.js and Express.js with support for *GraphQL*. The API is built to handle user registration, authentication, CRUD operations, and provides features like pagination, sorting, and error handling. It also includes logging using `Winston & Morgan`, and integrates JWT Authentication for securing routes.
+- This project is an implementation of a RESTful API using Node.js and Express.js with support for *GraphQL*. The API is built to handle user registration, user login, authentication with tokrns, CRUD operations, and provides features like pagination, filtering, searching, sorting, and error handling. It also includes logging using `Winston & Morgan`, and integrates JWT Authentication for securing routes.
 
-- Additionally, the project demonstrates the ability to work with TypeScript/JavaScript, *GraphQL, and ApolloServer* for optimized data queries.
+- Additionally, the project demonstrates the ability to work with JavaScript, *GraphQL, and ApolloServer* for optimized data queries.
 
 ## Project Structure
 - Here’s the structure of the project:
@@ -57,7 +57,7 @@
 - `app.js`: Configures and sets up the main Express.js application.
 - `index.js`: Entry point for the application, runs the server.
 - `constants.js`: Contains constants like database name, JWT secret, etc.
-- `DOC.md`: Documentation for the project.
+- `README_DOC.md`: Documentation for the project.
 
 ## Features
 
@@ -76,7 +76,7 @@
 ### 5. GraphQL Integration (Optional)
 - The application integrates GraphQL using ApolloServer, providing a flexible query language to fetch and manipulate data.
 - The GraphQL schema is stored in the `graphql/schema.js` file.
-### 6. TypeScript Support
+### 6. JavaScript Support
 - The API is written in TypeScript/JavaScript, ensuring static typing and better maintainability.
 
 ## Testing
@@ -92,12 +92,46 @@
 - Make sure to test different API scenarios using Postman, including valid and invalid inputs.
 
 ### Apollo Server for GraphQL
-- To use GraphQL, you can query the API using Apollo Server with queries like:
-
- *query {
+- To use GraphQL, you can query the API using Apollo Server with queries and mutations like:
+- *mutation {
+    registerUser{
+      _id
+      name
+      email
+      phone
+      profession
+      }*
+  
+ - *mutation {
   users {
     name
     email
+  }
+}*
+
+- This a user query:-
+  
+- *query Query($id: ID!, $search: String!) {
+  - getAllUsers {
+    _id
+    name
+    email
+    phone
+    profession
+  }
+ - getUserById(_id: $id) {
+    _id
+    name
+    email
+    phone
+    profession
+  }
+  - searchUsers(search: $search) {
+    _id
+    name
+    email
+    phone
+    profession
   }
 }*
 
