@@ -2,9 +2,6 @@ import dotenv from "dotenv";
 import { app } from "../src/app.js";
 import connectDB from "./config/db.js";
 import logger from "./utils/logger.js";
-import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4";
-import { typeDefs, resolvers } from "../src/graphql/schema.js";
 
 dotenv.config({
     path: './.env'
@@ -13,18 +10,6 @@ dotenv.config({
 const startServer = async () => {
     try {
         await connectDB();
-
-        // Create the ApolloServer instance
-        const server = new ApolloServer({
-            typeDefs,
-            resolvers,
-        });
-
-        // Start Apollo Server
-        await server.start();
-        app.use('/graphql', expressMiddleware(server)); // Apply Apollo middleware
-
-
         const port = process.env.PORT || 5000;
         app.listen(port, () => {
             logger.info(`Server running on http://localhost:${port}`);

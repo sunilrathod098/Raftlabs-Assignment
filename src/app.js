@@ -43,12 +43,8 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
 });
-
-// Start Apollo Server
-await server.start();
-
-// Apply Apollo Server middleware to Express app
-app.use('/graphql', expressMiddleware(server));
+await server.start();  // Start Apollo Server
+app.use('/graphql', expressMiddleware(server));  //Apollo Server middleware to Express app
 
 
 //import routes

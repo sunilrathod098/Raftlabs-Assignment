@@ -19,4 +19,5 @@ router.route('/update/:_id').put(updateUser);
 router.route('/delete/:_id').delete(deleteUser)
 router.route('/search').get(SearchUser)
 
+
 export default router;
