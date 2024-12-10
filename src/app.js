@@ -20,7 +20,7 @@ const app = express();
 
 //Middleware
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || ["http://localhost:3000", "http://localhost:5000"],
+    origin: process.env.CORS_ORIGIN,
     credentials: true
 }));
 app.use(express.json());
@@ -50,7 +50,7 @@ app.use('/graphql', expressMiddleware(server));  //Apollo Server middleware to E
 //import routes
 import userRouter from "./route/user.route.js";
 
-//routes declaration
+//Detailed routes declaration
 app.use('/api/v1/users', userRouter)
 
 

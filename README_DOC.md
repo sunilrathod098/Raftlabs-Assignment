@@ -33,12 +33,20 @@
 - │
 - ├── public/                    
 - ├── logs/
-- │   ├── combined.log                      
-- │   ├── error.log                      
-- ├── .env                       
-- ├── package.json  
-- ├── DOC.md            
-- └── README.md                  
+- │   ├── combined.log
+- │   ├── error.log
+- ├── .env
+- ├── package.json
+- ├── README_DOC.md
+- └── README.md
+
+## Tools & Technologies
+- I use tools and technologies in this Assignment
+### Technologies 
+- `Node.js, Express.js, MongoDB, Mongoose, JavaScript, JWT, Apollo Server (GraphQL), MVC Architecture`
+### Tools
+- `VsCode, Git & GitHub, Postman, GraphQL Playground, MongoDBcompass, Nodemon, dotenv, Winston, & Morgan`
+
 
 ### Key Folders and Files
 - `controller/`: Contains the business logic for user-related operations.
