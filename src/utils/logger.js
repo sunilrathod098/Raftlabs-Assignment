@@ -1,8 +1,7 @@
-import winston from "winston";
 import moment from "moment";
+import winston from "winston";
 
-//here we create winston logger is use for
-//debugging, error tracking and monitoring.
+//here we create winston logger is use for debugging, error tracking and monitoring.
 const logger = winston.createLogger({
     level: "info",
     format: winston.format.combine(
@@ -17,7 +16,7 @@ const logger = winston.createLogger({
         )
     ),
     transports: [
-        new winston.transports.Console(),
+        new winston.transports.Console(),  //display logs in console for real time debugging
         new winston.transports.File({ filename: "logs/error.log", level: "error" }),
         new winston.transports.File({ filename: "logs/combined.log" })
     ],

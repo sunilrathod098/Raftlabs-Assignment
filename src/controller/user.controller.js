@@ -25,9 +25,9 @@ const generateAccessTokenAndRefreshToken = async(userId) => {
 //registerUser controller
 const registerUser = asyncHandler(async (req, res) => {
 
-    if (!req.body || Object.keys(req.body).length === 0) {
-        throw new ApiError(400, "Request body is missing or empty")
-    }
+    // if (!req.body || Object.keys(req.body).length === 0) {
+    //     throw new ApiError(400, "Request body is missing or empty")
+    // }
 
     //check and validation
 
@@ -64,7 +64,7 @@ const registerUser = asyncHandler(async (req, res) => {
         profession,
     })
 
-    //we fetch createUser
+    //we fetch createdUser
     const createdUser = await User.findById(user._id).select("-password -refreshToken");
     if (!createdUser) {
         throw new ApiError(500, "Something went wrong while registering new user.")
@@ -83,9 +83,9 @@ const registerUser = asyncHandler(async (req, res) => {
 //loginUser controller
 const loginUser = asyncHandler(async (req, res) => {
 
-    if (!req.body || Object.keys(req.body).length === 0) {
-        throw new ApiError(400, "Request body is missing or empty")
-    }
+    // if (!req.body || Object.keys(req.body).length === 0) {
+    //     throw new ApiError(400, "Request body is missing or empty")
+    // }
     //check and validation
     check("email").isEmail().withMessage("Email is required").run(req);
     check("password").isLength({ min: 8 }).withMessage("Password must be at least 8 character long").run(req);
@@ -126,6 +126,37 @@ const loginUser = asyncHandler(async (req, res) => {
 
 
 // CRUD operations is perform on user Create, Read, Update, Delete.
+//createUser
+const createUser = asyncHandler(async (req, res) => {
+    const { name, email, password, phone, profession } = req.body;
+
+    // Validation
+    check("name").notEmpty().withMessage("Name is required").run(req);
+    check("email").isEmail().withMessage("Valid email is required").run(req);
+    check("password").isLength({ min: 8 }).withMessage("Password must be at least 8 characters").run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        throw new ApiError(400, "Validation failed", errors.array());
+    }
+
+    // Check if user already exists
+    const existedUser = await User.findOne({ email });
+    if (existedUser) {
+        throw new ApiError(409, "User already exists with this email.");
+    }
+
+
+    // Create user
+    const newUser = await User.create({ name, email, password, phone, profession });
+    if (!newUser) {
+        throw new ApiError(500, "Something went wrong while creating user.");
+    }
+    
+    return res.status(201).json(new ApiResponse(201, newUser, "User created successfully."));
+});
+
+
 //get all users
 const getAllUsers = asyncHandler(async (req, res) => {
 
@@ -294,6 +325,6 @@ const SearchUser = asyncHandler(async (req, res) => {
 
 export {
     deleteUser, generateAccessTokenAndRefreshToken, getAllUsers,
-    getUserById, loginUser, registerUser, SearchUser, updateUser
+    getUserById, loginUser, registerUser, SearchUser, updateUser, createUser
 }
 

@@ -10,8 +10,6 @@ import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 
 
-
-
 // Manually calculate __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
 
-//setup morgan and redirect logs to winston
+// //setup morgan and redirect logs to winston
 app.use(
     morgan('combined', {
         stream: {
@@ -43,9 +41,11 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
 });
-await server.start();  // Start Apollo Server
-app.use('/graphql', expressMiddleware(server));  //Apollo Server middleware to Express app
+await server.start();  // Start Apollo Server instance to make it ready for handling requests.
 
+
+// Use express middleware to connect Apollo Server to Express app
+app.use('/graphql', expressMiddleware(server));  //Apollo Server middleware to Express app
 
 //import routes
 import userRouter from "./route/user.route.js";

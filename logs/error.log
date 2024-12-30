@@ -6,7 +6,7 @@
 [2024-12-05T10:04:44.932Z ERROR: request from body: ]
 [2024-12-05T10:49:21.064Z ERROR: Conflict: User already exists with this email or name.]
 [2024-12-05T11:16:04.271Z ERROR: Database connection is failed: Cannot create property 'Symbol(level)' on string '
- Database connect successfully!!']
+Database connect successfully!!']
 [2024-12-05T11:16:11.699Z ERROR: Database connection is failed: logger.ingp is not a function]
 [2024-12-05T11:29:18.200Z ERROR: Conflict: User already exists with this email or name.]
 [2024-12-05T11:32:15.191Z ERROR: Conflict: User already exists with this email or name.]

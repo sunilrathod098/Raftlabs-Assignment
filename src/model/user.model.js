@@ -41,7 +41,6 @@ userSchema.pre("save", async function (next) {
     next()
 })
 
-
 //this method is user for decrypt (into a hash code readable password type) the password
 userSchema.methods.isPasswordCorrect = async function (password) {
 
@@ -50,6 +49,8 @@ userSchema.methods.isPasswordCorrect = async function (password) {
     }
     return await bcrypt.compare(password, this.password)
 }
+
+
 
 //this code is generate a access token
 userSchema.methods.generateAccessToken = function () {

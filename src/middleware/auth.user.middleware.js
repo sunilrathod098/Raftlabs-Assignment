@@ -7,8 +7,7 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
     try {
         const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer", "")
 
-        //check if the token is missing
-        if (!token) {
+        if (!token) { //check if the token is missing
             throw new ApiError(401, "Unauthorized request")
         }
 
@@ -20,8 +19,7 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
             "-password -refreshToken"
         )
 
-        //check if the user is exist or not
-        if (!user) {
+        if (!user) { //check if the user is missing
             throw new ApiError(401, "Invalid access Token")
         }
 
@@ -32,3 +30,16 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
         throw new ApiError(401, error?.message || "Invalid access Token")
     }
 })
+
+
+
+function 
+
+
+
+
+
+
+
+
+
